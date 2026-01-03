@@ -1,0 +1,48 @@
+{
+  "name": "github-achievements-manager",
+  "version": "2.0.0",
+  "description": "CLI tool to automatically unlock GitHub achievements through automated workflows",
+  "main": "dist/index.js",
+  "type": "module",
+  "bin": {
+    "github-achievements": "dist/index.js"
+  },
+  "scripts": {
+    "build": "tsc",
+    "start": "node dist/index.js",
+    "dev": "tsx src/index.tsx",
+    "clean": "rm -rf dist logs achievements.db",
+    "lint": "tsc --noEmit",
+    "prepare": "npm run build"
+  },
+  "keywords": [
+    "github",
+    "achievements",
+    "cli",
+    "automation",
+    "pull-request",
+    "ink",
+    "react"
+  ],
+  "author": "",
+  "license": "MIT",
+  "engines": {
+    "node": ">=18.0.0"
+  },
+  "dependencies": {
+    "@octokit/rest": "^20.0.2",
+    "dotenv": "^16.3.1",
+    "figures": "^6.0.1",
+    "ink": "^4.4.1",
+    "ink-select-input": "^5.0.0",
+    "ink-spinner": "^5.0.0",
+    "ink-text-input": "^5.0.0",
+    "react": "^18.2.0"
+  },
+  "devDependencies": {
+    "@types/node": "^20.10.5",
+    "@types/react": "^18.2.45",
+    "tsx": "^4.7.0",
+    "typescript": "^5.3.3"
+  }
+}
