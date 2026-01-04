@@ -3,7 +3,7 @@ import { Box, Text, useApp } from 'ink';
 import { Header, TextInput, Spinner, StatusMessage, Confirm } from '../components/index.js';
 import { colors, symbols } from '../theme.js';
 import { validateTokenFormat, quickValidateToken } from '../../github/auth.js';
-import { initGitHubClient } from '../../github/client.js';
+import { initGitHubClient, getGitHubClient } from '../../github/client.js';
 import { areDiscussionsEnabled } from '../../github/discussion.js';
 import { createEnvFile } from '../../utils/config.js';
 import type { AppConfig, UserInfo } from '../../types/index.js';
@@ -17,6 +17,9 @@ type SetupStep =
   | 'helper-prompt'
   | 'helper-token'
   | 'validating-helper'
+  | 'checking-collaborator'
+  | 'invite-collaborator'
+  | 'inviting-collaborator'
   | 'saving'
   | 'complete';
 
@@ -40,6 +43,7 @@ export const SetupScreen: React.FC<SetupScreenProps> = ({ onComplete }) => {
   const [helperToken, setHelperToken] = useState('');
   const [helperError, setHelperError] = useState('');
   const [helperUser, setHelperUser] = useState<UserInfo | null>(null);
+  const [helperIsCollaborator, setHelperIsCollaborator] = useState(false);
 
   // Handle token submission
   const handleTokenSubmit = async (value: string) => {
@@ -158,12 +162,42 @@ export const SetupScreen: React.FC<SetupScreenProps> = ({ onComplete }) => {
       }
 
       setHelperUser(helper);
-      setStep('saving');
-      await saveConfig(true, value.trim());
+
+      // Check if helper is already a collaborator
+      setStep('checking-collaborator');
+      const [owner, repoName] = repo.trim().split('/');
+      const client = getGitHubClient();
+      const isCollab = await client.isCollaborator(owner, repoName, helper.login);
+
+      if (isCollab) {
+        setHelperIsCollaborator(true);
+        setStep('saving');
+        await saveConfig(true, value.trim());
+      } else {
+        setHelperIsCollaborator(false);
+        setStep('invite-collaborator');
+      }
     } catch (error) {
       setHelperError('Token validation failed. Check your token and try again.');
       setStep('helper-token');
     }
+  };
+
+  // Handle collaborator invite choice
+  const handleInviteChoice = async (invite: boolean) => {
+    if (invite) {
+      setStep('inviting-collaborator');
+      const [owner, repoName] = repo.trim().split('/');
+      const client = getGitHubClient();
+      const success = await client.addCollaborator(owner, repoName, helperUser!.login);
+
+      if (success) {
+        setHelperIsCollaborator(true);
+      }
+    }
+
+    setStep('saving');
+    await saveConfig(true, helperToken.trim());
   };
 
   // Save configuration
@@ -330,6 +364,54 @@ export const SetupScreen: React.FC<SetupScreenProps> = ({ onComplete }) => {
             <StatusMessage type="success" message="Discussions enabled" />
             <Box marginTop={1}>
               <Spinner label="Validating helper account..." />
+            </Box>
+          </Box>
+        )}
+
+        {step === 'checking-collaborator' && (
+          <Box flexDirection="column">
+            <StatusMessage type="success" message={`Authenticated as ${userInfo!.login}`} />
+            <StatusMessage type="success" message={`Repository: ${repo}`} />
+            <StatusMessage type="success" message="Discussions enabled" />
+            <StatusMessage type="success" message={`Helper account: ${helperUser?.login}`} />
+            <Box marginTop={1}>
+              <Spinner label="Checking collaborator access..." />
+            </Box>
+          </Box>
+        )}
+
+        {step === 'invite-collaborator' && (
+          <Box flexDirection="column">
+            <StatusMessage type="success" message={`Authenticated as ${userInfo!.login}`} />
+            <StatusMessage type="success" message={`Repository: ${repo}`} />
+            <StatusMessage type="success" message="Discussions enabled" />
+            <StatusMessage type="success" message={`Helper account: ${helperUser?.login}`} />
+            <Box marginTop={1} flexDirection="column">
+              <Text color={colors.warning}>
+                Helper account needs collaborator access on {repo}
+              </Text>
+              <Text color={colors.muted}>
+                This allows them to create discussions and submit PR reviews.
+              </Text>
+            </Box>
+            <Box marginTop={1}>
+              <Confirm
+                message={`Invite ${helperUser?.login} as collaborator?`}
+                onConfirm={handleInviteChoice}
+                defaultValue={true}
+              />
+            </Box>
+          </Box>
+        )}
+
+        {step === 'inviting-collaborator' && (
+          <Box flexDirection="column">
+            <StatusMessage type="success" message={`Authenticated as ${userInfo!.login}`} />
+            <StatusMessage type="success" message={`Repository: ${repo}`} />
+            <StatusMessage type="success" message="Discussions enabled" />
+            <StatusMessage type="success" message={`Helper account: ${helperUser?.login}`} />
+            <Box marginTop={1}>
+              <Spinner label={`Inviting ${helperUser?.login} as collaborator...`} />
             </Box>
           </Box>
         )}

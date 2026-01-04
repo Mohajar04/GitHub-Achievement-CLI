@@ -261,6 +261,37 @@ export class GitHubClient {
   }
 
   /**
+   * Check if a user is a collaborator on the repo
+   */
+  async isCollaborator(owner: string, repo: string, username: string): Promise<boolean> {
+    try {
+      await this.octokit.repos.checkCollaborator({ owner, repo, username });
+      return true;
+    } catch (error) {
+      // 404 means not a collaborator
+      return false;
+    }
+  }
+
+  /**
+   * Add a user as a collaborator to the repo
+   */
+  async addCollaborator(owner: string, repo: string, username: string): Promise<boolean> {
+    try {
+      await this.octokit.repos.addCollaborator({
+        owner,
+        repo,
+        username,
+        permission: 'push', // write access
+      });
+      return true;
+    } catch (error) {
+      logger.error(`Failed to add collaborator: ${error}`);
+      return false;
+    }
+  }
+
+  /**
    * Get owner and repo from config
    */
   getTargetRepo(): { owner: string; repo: string } {
