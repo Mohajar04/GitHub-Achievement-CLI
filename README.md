@@ -1,5 +1,7 @@
 # GitHub Achievement CLI
 
+⭐ If you find this useful, please star the repo — thanks!
+
 Automate GitHub profile achievements. Earn Pair Extraordinaire, Pull Shark, Galaxy Brain, Quickdraw, and YOLO badges through automated workflows.
 
 ## Supported Achievements
