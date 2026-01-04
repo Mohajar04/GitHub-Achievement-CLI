@@ -40,3 +40,6 @@ temp/
 
 # Local data (per-account database files)
 achievements-data*.json
+
+# Language preference
+.language

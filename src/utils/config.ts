@@ -20,6 +20,7 @@ export const ENV_PATH = join(PROJECT_ROOT, '.env');
 export const ENV_EXAMPLE_PATH = join(PROJECT_ROOT, '.env.example');
 export const DB_PATH = join(PROJECT_ROOT, 'achievements.db');
 export const LOGS_DIR = join(PROJECT_ROOT, 'logs');
+export const LANG_PATH = join(PROJECT_ROOT, '.language');
 
 // Default configuration values
 // Note: Each operation makes ~5 API calls (branch, commit, PR, merge, delete)
@@ -290,4 +291,32 @@ export function isVerbose(): boolean {
   } catch {
     return false;
   }
+}
+
+/**
+ * Check if language has been set
+ */
+export function languageFileExists(): boolean {
+  return existsSync(LANG_PATH);
+}
+
+/**
+ * Get saved language
+ */
+export function getSavedLanguage(): string | null {
+  if (!languageFileExists()) {
+    return null;
+  }
+  try {
+    return readFileSync(LANG_PATH, 'utf-8').trim();
+  } catch {
+    return null;
+  }
+}
+
+/**
+ * Save language preference
+ */
+export function saveLanguage(lang: string): void {
+  writeFileSync(LANG_PATH, lang, 'utf-8');
 }

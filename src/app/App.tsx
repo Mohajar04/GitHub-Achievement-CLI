@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { Box, Text, useApp } from 'ink';
 import {
+  LanguageScreen,
   SetupScreen,
   MenuScreen,
   SelectScreen,
@@ -13,14 +14,15 @@ import {
 } from './screens/index.js';
 import { Spinner } from './components/index.js';
 import { colors } from './theme.js';
-import { envFileExists, loadConfig, clearConfigCache } from '../utils/config.js';
+import { envFileExists, loadConfig, clearConfigCache, getSavedLanguage, saveLanguage } from '../utils/config.js';
+import { setLanguage, type Language } from '../i18n/index.js';
 import { initGitHubClient, initHelperClient } from '../github/client.js';
 import { quickValidateToken } from '../github/auth.js';
 import { areDiscussionsEnabled } from '../github/discussion.js';
 import { setDatabaseUser } from '../db/database.js';
 import type { AppConfig, ExecutionResult } from '../types/index.js';
 
-type Screen = 'loading' | 'setup' | 'menu' | 'select' | 'execute' | 'status' | 'list' | 'reset-history';
+type Screen = 'loading' | 'language' | 'setup' | 'menu' | 'select' | 'execute' | 'status' | 'list' | 'reset-history';
 
 export const App: React.FC = () => {
   const { exit } = useApp();
@@ -33,10 +35,18 @@ export const App: React.FC = () => {
   const [selections, setSelections] = useState<SelectedAchievement[]>([]);
   const [error, setError] = useState<string | null>(null);
 
-  // Initial load - check if setup is needed
+  // Initial load - check for language and setup
   useEffect(() => {
     const init = async () => {
       try {
+        // Check for saved language first
+        const savedLang = getSavedLanguage();
+        if (!savedLang) {
+          setScreen('language');
+          return;
+        }
+        setLanguage(savedLang as Language);
+
         if (!envFileExists()) {
           setScreen('setup');
           return;
@@ -75,6 +85,48 @@ export const App: React.FC = () => {
 
     init();
   }, []);
+
+  // Handle language selection
+  const handleLanguageSelect = (lang: Language) => {
+    saveLanguage(lang);
+    setLanguage(lang);
+
+    // Continue to setup or menu
+    if (!envFileExists()) {
+      setScreen('setup');
+    } else {
+      // Re-init with language set
+      setScreen('loading');
+      setTimeout(() => {
+        const init = async () => {
+          try {
+            const existingConfig = loadConfig();
+            setConfig(existingConfig);
+            initGitHubClient(existingConfig);
+
+            if (existingConfig.helperToken) {
+              initHelperClient(existingConfig.helperToken);
+              setHasHelper(true);
+            }
+
+            const user = await quickValidateToken(existingConfig.githubToken);
+            setUsername(user.login);
+            setDatabaseUser(user.login);
+
+            const [owner, repo] = existingConfig.targetRepo.split('/');
+            const discussions = await areDiscussionsEnabled(owner, repo);
+            setHasDiscussions(discussions);
+
+            setScreen('menu');
+          } catch {
+            clearConfigCache();
+            setScreen('setup');
+          }
+        };
+        init();
+      }, 100);
+    }
+  };
 
   // Handle setup completion
   const handleSetupComplete = async (newConfig: AppConfig) => {
@@ -142,6 +194,10 @@ export const App: React.FC = () => {
     <Box flexDirection="column" padding={1}>
       {screen === 'loading' && (
         <Spinner label="Loading..." />
+      )}
+
+      {screen === 'language' && (
+        <LanguageScreen onSelect={handleLanguageSelect} />
       )}
 
       {screen === 'setup' && (

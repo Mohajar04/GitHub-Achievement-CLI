@@ -1,3 +1,4 @@
+export { LanguageScreen } from './LanguageScreen.js';
 export { SetupScreen } from './SetupScreen.js';
 export { MenuScreen, type MenuAction } from './MenuScreen.js';
 export { SelectScreen, type SelectedAchievement } from './SelectScreen.js';
