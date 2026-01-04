@@ -1,11 +1,11 @@
 {
-  "name": "github-achievements-manager",
-  "version": "2.0.0",
-  "description": "CLI tool to automatically unlock GitHub achievements through automated workflows",
+  "name": "github-achievement-cli",
+  "version": "1.0.0",
+  "description": "CLI tool to automate GitHub profile achievements",
   "main": "dist/index.js",
   "type": "module",
   "bin": {
-    "github-achievements": "dist/index.js"
+    "github-achievement": "dist/index.js"
   },
   "scripts": {
     "build": "tsc",

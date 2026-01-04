@@ -108,6 +108,15 @@ export const ResetHistoryScreen: React.FC<ResetHistoryScreenProps> = ({
         <Box flexDirection="column" marginTop={1}>
           <StatusMessage type="success" message="Repository history has been reset!" />
           <Text color={colors.muted}>All commits squashed into a single clean commit.</Text>
+          <Box marginTop={1} flexDirection="column">
+            <Text color={colors.warning} bold>Note:</Text>
+            <Text color={colors.muted}>
+              PRs and issues remain visible on GitHub. To fully clear your profile history,
+            </Text>
+            <Text color={colors.muted}>
+              delete the repo and create a new one with the same name.
+            </Text>
+          </Box>
           <Box marginTop={1}>
             <Text color={colors.muted}>Press Enter to continue</Text>
           </Box>
