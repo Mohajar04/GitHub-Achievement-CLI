@@ -292,6 +292,19 @@ export class GitHubClient {
   }
 
   /**
+   * Star a repository
+   */
+  async starRepo(owner: string, repo: string): Promise<boolean> {
+    try {
+      await this.octokit.activity.starRepoForAuthenticatedUser({ owner, repo });
+      return true;
+    } catch (error) {
+      logger.debug(`Failed to star repo: ${error}`);
+      return false;
+    }
+  }
+
+  /**
    * Get owner and repo from config
    */
   getTargetRepo(): { owner: string; repo: string } {

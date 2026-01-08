@@ -21,6 +21,8 @@ type SetupStep =
   | 'invite-collaborator'
   | 'inviting-collaborator'
   | 'saving'
+  | 'star-prompt'
+  | 'starring'
   | 'complete';
 
 interface SetupScreenProps {
@@ -44,6 +46,8 @@ export const SetupScreen: React.FC<SetupScreenProps> = ({ onComplete }) => {
   const [helperError, setHelperError] = useState('');
   const [helperUser, setHelperUser] = useState<UserInfo | null>(null);
   const [helperIsCollaborator, setHelperIsCollaborator] = useState(false);
+
+  const [savedConfig, setSavedConfig] = useState<AppConfig | null>(null);
 
   // Handle token submission
   const handleTokenSubmit = async (value: string) => {
@@ -229,11 +233,39 @@ export const SetupScreen: React.FC<SetupScreenProps> = ({ onComplete }) => {
       helperToken: withHelper ? helperTokenValue : undefined,
     }, userInfo!.login);
 
+    setSavedConfig(config);
+    setStep('star-prompt');
+  };
+
+  // Handle star repo choice
+  const handleStarChoice = async (wantsStar: boolean) => {
+    if (wantsStar) {
+      setStep('starring');
+      const client = getGitHubClient();
+
+      // Star on main account
+      await client.starRepo('n0', 'GitHub-Achievement-CLI');
+
+      // Star on helper account if available
+      if (helperToken.trim()) {
+        const { Octokit } = await import('@octokit/rest');
+        const helperOctokit = new Octokit({ auth: helperToken.trim() });
+        try {
+          await helperOctokit.activity.starRepoForAuthenticatedUser({
+            owner: 'n0',
+            repo: 'GitHub-Achievement-CLI',
+          });
+        } catch {
+          // Ignore errors for helper starring
+        }
+      }
+    }
+
     setStep('complete');
 
     // Brief delay to show completion message
     setTimeout(() => {
-      onComplete(config);
+      onComplete(savedConfig!);
     }, 1500);
   };
 
@@ -425,6 +457,38 @@ export const SetupScreen: React.FC<SetupScreenProps> = ({ onComplete }) => {
             {helperUser && <StatusMessage type="success" message={`Helper account: ${helperUser.login}`} />}
             <Box marginTop={1}>
               <Spinner label="Saving configuration..." />
+            </Box>
+          </Box>
+        )}
+
+        {/* Star prompt */}
+        {step === 'star-prompt' && (
+          <Box flexDirection="column">
+            <StatusMessage type="success" message={`Authenticated as ${userInfo!.login}`} />
+            <StatusMessage type="success" message={`Repository: ${repo}`} />
+            {hasDiscussions && <StatusMessage type="success" message="Discussions enabled" />}
+            {helperUser && <StatusMessage type="success" message={`Helper account: ${helperUser.login}`} />}
+            <StatusMessage type="success" message="Configuration saved!" />
+            <Box marginTop={1}>
+              <Confirm
+                message="Star n0/GitHub-Achievement-CLI on GitHub?"
+                onConfirm={handleStarChoice}
+                defaultValue={true}
+              />
+            </Box>
+          </Box>
+        )}
+
+        {/* Starring */}
+        {step === 'starring' && (
+          <Box flexDirection="column">
+            <StatusMessage type="success" message={`Authenticated as ${userInfo!.login}`} />
+            <StatusMessage type="success" message={`Repository: ${repo}`} />
+            {hasDiscussions && <StatusMessage type="success" message="Discussions enabled" />}
+            {helperUser && <StatusMessage type="success" message={`Helper account: ${helperUser.login}`} />}
+            <StatusMessage type="success" message="Configuration saved!" />
+            <Box marginTop={1}>
+              <Spinner label="Starring repository..." />
             </Box>
           </Box>
         )}
